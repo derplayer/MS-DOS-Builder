@@ -1,0 +1,41 @@
+; This is the tools.ini configuration file use by Zbikowski
+; to tailor the Z editor.  No such configuration is necessary
+; if you wish to use the editor defaults described in the manual.
+[z]
+    height:41
+    window:^Y
+    mpage:HOME
+    ppage:PGUP
+    begline:END
+    endline:PGDN
+    home:CTRL-HOME
+    pword:ctrl-right
+    mword:ctrl-left
+    markfile:z.mrk
+    quote:alt-q
+
+    fgcolor:0
+    bgcolor:7
+    errcolor:15
+    infcolor:1
+    stacolor:1
+    entab:1
+    tmpsav:10
+
+    vi:=pick arg "<>" setfile linsert put en " >\\tmp\\zvi.tmp" be arg en push arg refresh arg "\\tmp\\zvi.tmp" setfile mark arg arg "<>" mark arg ppage arg "<>" pick arg refresh put
+    vi:alt-v
+
+    sm:=arg "height:23" assign
+    sm:alt-s
+
+    wd:=arg meta pword sd
+    wd:alt-d
+
+    wm:=meta pword mword arg meta pword mark
+    wm:alt-m
+
+    lc:=arg arg endline compile
+    lc:alt-u
+
+    msf:=meta setfile
+    msf:alt-b

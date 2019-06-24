@@ -1,0 +1,64 @@
+Z19 - COM port communication program
+==============================================================================
+usage: Z19 [/b <speed> | /bn <speed>]
+
+Z19 is aserial line communication program that performs basic TTY emulation
+for the IBM-PC.  It does not assume that you have a terminal emulator
+
+Function keys that do interesting things are:
+
+ALT-H	Displays a help menu
+ALT-F1	Momentarily displays the program version.
+ALT-F2	Begin a prompted file transfer (via MSCOM)
+ALT-F3	Pushes COMMAND
+ALT-F4	Clear screen
+ALT-F5	Send a line-break
+ALT-F6	Toggle printer echoing
+ALT-F7	Exit z19
+ALT-F8	Toggle the COM line (if two COM lines are present)
+
+Changing Defaults:
+-----------------
+    By default, z19 runs at 9600bps, assumes the host to be com1, and
+    the file tranfer protocol to be mscom.
+
+    The speed can be changed by specifying the optional command line
+    switch /bn <speed>.  Where n is the com device, 1 for com1, 2 for com2.
+    Examples:	 z19 /b  1200  (set com1 to 1200bps).
+		 z19 /b1 1200  (set com1 to 1200bps).
+		 z19 /b2 1200  (set com2 to 1200bps).
+		 z19 /b1 1200 /b2 1200	(set com1 and com2 to 1200bps).
+
+    All defaults can be set in your TOOLS.INI file.  The procedure is:
+
+    1.	In your autoexec.bat, set init=<some path to TOOLS.INI>.
+	Example, most XT's use:  set INIT=C:\tmp
+	With the file TOOLS.INI in the directory c:\tmp.
+
+    2.	Place the following in your tools.ini:
+
+	[com]
+	    com1:
+		speed:<one of: 300, 1200, 2400, 4800, 9600, 19200>
+		 host:<name of your host>
+	    com2:
+		speed:<one of: 300, 1200, 2400, 4800, 9600, 19200>
+		 host:<name of your host>
+
+	com1:	identifies the device.	May be com1: or com2:
+	speed:	establishes the default speed for z19 and mscom.
+		when omitted, 9600 is assumed.
+	host:	cosmetic fluff.  Any text identifying your host for
+		that device.  optional.
+
+    For example:
+
+	[com]
+	    com1:
+		speed:9600	    ;In house 9600 bps
+		 host:Kermit	    ;talks to kermit
+	    com2:
+		speed:1200	    ;2nd com card attached to Hayes
+		 host:hayes	    ;smart modem running at 1200 bps.
+
+Keywords: z19 vt52 terminal emulator mscom communication modem ftp com
