@@ -42,20 +42,31 @@ SYSINITVAR  ENDS
         INCLUDE DOSSYM.ASM
         INCLUDE DEVSYM.ASM
 
-        IF      NOT IBM
-        IF      NOT IBMJAPVER
-        EXTRN   RE_INIT:FAR
-        ENDIF
-        ENDIF
+        ;IF      NOT IBM
+        ;IF      NOT IBMJAPVER
+        ;EXTRN   RE_INIT:FAR ;disabling this breaks non ibm compatible versions
+        ;ENDIF
+        ;ENDIF
 
 SYSINITSEG      SEGMENT PUBLIC 'SYSTEM_INIT'
 
+;strings for io.sys
+BADOPM		DB      13,10,"Unrecognized command in CONFIG.SYS"                   ;
+CRLFM		DB		13,10,'$' 
+BADCOM 		DB		13,10,"Command Interpreter",0
+BADSIZ_PRE  DB	    13,10,"Sector size too large in file $" 
+BADSIZ_POST LABEL   BYTE
+BADLD_PRE   DB	    13,10,"Bad or missing $"
+BADLD_POST  DB	    13,10,"Bad or missing $" ; TODO: this is wrong and needs to be fixed
+BADCOUNTRY 	DB		13,10,"Invalid country code or code page",13,10,"$" 
+SYSSIZE		LABEL	BYTE
+
 ASSUME  CS:SYSINITSEG,DS:NOTHING,ES:NOTHING,SS:NOTHING
 
-        EXTRN   BADOPM:BYTE,CRLFM:BYTE,BADCOM:BYTE
-        EXTRN   BADSIZ_PRE:BYTE,BADLD_PRE:BYTE
-        EXTRN   BADSIZ_POST:BYTE,BADLD_POST:BYTE
-        EXTRN   SYSSIZE:BYTE,BADCOUNTRY:BYTE
+        ;EXTRN   BADOPM:BYTE,CRLFM:BYTE,BADCOM:BYTE
+        ;EXTRN   BADSIZ_PRE:BYTE,BADLD_PRE:BYTE
+        ;EXTRN   BADSIZ_POST:BYTE,BADLD_POST:BYTE
+        ;EXTRN   SYSSIZE:BYTE,BADCOUNTRY:BYTE
 
         PUBLIC  CURRENT_DOS_LOCATION
         PUBLIC  FINAL_DOS_LOCATION
@@ -216,11 +227,12 @@ LOCSTACK LABEL BYTE
         MOV     WORD PTR [DOSINFO+2],ES ; SAVE POINTER TO DOS INFO
         MOV     WORD PTR [DOSINFO],DI
 
-        IF      NOT IBM
-        IF      NOT IBMJAPVER
-        CALL    RE_INIT                 ; Re-call the BIOS
-        ENDIF
-        ENDIF
+		; this breaks non-ibm compatible bioses but i dont care
+        ;IF      NOT IBM
+        ;IF      NOT IBMJAPVER
+        ;CALL    RE_INIT                 ; Re-call the BIOS
+        ;ENDIF
+        ;ENDIF
 
         STI
         CLD
